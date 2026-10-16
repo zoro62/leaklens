@@ -2,7 +2,7 @@
 
 ## Assets and boundary
 
-The source raster, decoded QR payload, OCR text, findings, and exported PNG are sensitive session data. The browser is the processing boundary. The app server serves source code, fixture images and engine assets; it has no upload or AI endpoint. Third-party browser extensions, a compromised browser/OS, and maliciously modified app dependencies are outside this prototype's protection boundary.
+The source raster, decoded QR payload, OCR text, findings, and exported PNG are sensitive session data. The browser is the processing boundary. The app server serves source code, fixture images and engine assets; it has no image upload endpoint. An optional local-only Gemini route forwards consented abstract counts and rule IDs; it never receives image evidence. Third-party browser extensions, a compromised browser/OS, and maliciously modified app dependencies are outside this prototype's protection boundary.
 
 ## Threats and mitigations
 
@@ -24,4 +24,4 @@ The source raster, decoded QR payload, OCR text, findings, and exported PNG are 
 
 Serve trusted builds over HTTPS except localhost. Keep the lockfile reviewed and dependencies updated. Retain engine licence notices. Do not add remote fonts, analytics, image proxies, or image logging without revisiting the privacy claim. The app is a hackathon prototype, not a forensic scrubber or guarantee that every leak is found.
 
-AI is intentionally omitted. Adding a paid endpoint would require authentication/rate limits, request/output schemas, size/time bounds, abstract summaries only, and deployment cost controls.
+Optional Gemini is disabled by default. The route requires a loopback URL and matching Origin, rejects nonlocal forwarding headers, accepts a strict bounded summary, limits calls to 10/hour per process with one in flight, and uses a 20-second provider timeout. AI can only reorder allowed advice IDs. Do not enable on a public deployment: local guards and process quotas are not authentication or distributed cost controls. See GEMINI.md.

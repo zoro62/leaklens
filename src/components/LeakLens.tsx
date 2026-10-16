@@ -6,6 +6,8 @@ import { ScanLine, ShieldCheck, Upload, ArrowUpRight, Download, Trash2, Undo2, R
 import type { AnalysisResult, Box, Category, Finding, ScanMode } from '@/lib/model';
 import type { PresetId } from '@/lib/review';
 import ComparisonView from './ComparisonView';
+import GeminiCoach from './GeminiCoach';
+import { reviewSummary } from '@/lib/gemini';
 import ExposureMap from './ExposureMap';
 import { FinalReview, SelectionTools } from './ReviewTools';
 import type { NormalImage } from '@/lib/image';
@@ -38,6 +40,7 @@ export default function LeakLens() {
   const [chosenGroup, setChosenGroup] = useState(''), [linkedGroup, setLinkedGroup] = useState('');
   const [coords, setCoords] = useState({ x: 0, y: 0, width: 100, height: 40 });
   const findings = history.current;
+  const coachSummary = result ? reviewSummary(result, findings) : null;
   const visible = findings.filter(f => !f.dismissed), selected = visible.filter(f => f.selectedForRedaction);
   const mapGroup = result?.exposureGroups.find(g => g.id === chosenGroup) || result?.exposureGroups[0];
   const linkedIds = new Set(result?.exposureGroups.find(g => g.id === linkedGroup)?.memberFindingIds || []);
@@ -207,6 +210,7 @@ export default function LeakLens() {
           <div className="review-content">
             <div className={`scan-status ${busy ? 'processing' : ''}`} role="status" aria-live="polite">{busy ? <LoaderCircle size={17} className="spin" /> : result ? result.ocrStatus === 'failed' || result.qrStatus === 'failed' ? <AlertTriangle size={17} /> : <Check size={17} /> : <ScanLine size={17} />}<span>{phase || 'Ready when you are'}</span></div>
             {result && <nav className="review-nav" aria-label="Review sections"><a href="#findings-list">Findings</a>{!!result.exposureGroups.length && <a href="#exposure-map">Exposure map</a>}<a href="#final-review">Final review</a></nav>}
+            {coachSummary && !busy && <GeminiCoach key={JSON.stringify(coachSummary)} summary={coachSummary} disabled={busy} />}
             {result && <><div className="scan-detail">{busy ? 'Last result · ' : ''}OCR: {result.ocrStatus} · QR: {result.qrStatus} · {(result.timing.totalMs / 1000).toFixed(1)}s · {result.scanMode || 'standard'}{result.scanMode === 'thorough' ? ` · ${result.tilesCompleted}/${result.tilesTotal} tiles` : ''}</div><p className="coverage-note">Names, unlabelled identifiers, and other details may be missed. Inspect the image and use manual rectangles for anything else you want hidden.</p>{result.warnings.map(w => <p className="warning" key={w}>{w}</p>)}<SelectionTools findings={findings} preset={preset} onPreset={setPreset} disabled={busy} onChange={edit} /></>}
             {!result && !busy ? <div className="review-empty"><div className="evidence-illustration"><div /><div /><div /><span><Link2 size={21} /></span></div><h3>See the details.<br />Understand the connections.</h3><p>Findings will appear here with their evidence, why they matter, and what to review.</p><div className="review-explainer"><span><span className="small-square" /> Directly observed text & codes</span><span><Link2 size={14} /> Related details, linked by clear rules</span><span><SquareDashedMousePointer size={14} /> You decide what gets covered</span></div></div> : <>
               <label className="filter-label">Show category<select aria-label="Filter findings by category" value={filter} onChange={e => setFilter(e.target.value as typeof filter)}>{categories.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}</select></label>

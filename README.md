@@ -27,7 +27,7 @@ npm run build
 npm start
 ```
 
-No environment variables or API keys are required. Optional AI is deliberately **not implemented**; there is no model endpoint and no fake AI output.
+The core requires no API key. Optional Gemini coaching is disabled by default; see [Gemini setup](docs/GEMINI.md). It sends only an explicitly consented abstract summary and ranks fixed, evidence-grounded advice.
 
 ## Implemented
 
@@ -143,4 +143,4 @@ With the server running, `node scripts/evaluate-fixtures.mjs` regenerates screen
 - [Engineering decisions for interviews](docs/ENGINEERING.md)
 - [MIT licence](LICENSE) and [third-party notices](THIRD_PARTY_NOTICES.md)
 
-The highest-value next improvement is a larger, labelled screenshot evaluation set, using its misses to improve font/block-aware grouping and coordinate coverage. Further work could include safer OCR orientation options, script support, stronger export target matching, and opt-in abstract-summary AI with rate/cost controls. There is no authentication, database, cloud image storage, paid endpoint, or extension.
+The highest-value next improvement is a larger, labelled screenshot evaluation set, using its misses to improve font/block-aware grouping and coordinate coverage. Further work could include safer OCR orientation options, script support, stronger export target matching, and broader evaluation of optional Gemini advice ranking. There is no authentication, database, cloud image storage, or extension. The optional paid Gemini endpoint is restricted to local use.

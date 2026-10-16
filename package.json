@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "fixtures": "node scripts/generate-fixtures.mjs",
-    "prepare": "node scripts/prepare-assets.mjs"
+    "prepare": "node scripts/prepare-assets.mjs",
+    "gemini:check": "node scripts/check-gemini.mjs"
   },
   "keywords": [],
   "license": "MIT",
