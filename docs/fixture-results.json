@@ -1,0 +1,53 @@
+{
+  "note": "Synthetic fixture evaluation, not a real-world accuracy benchmark. Times vary by machine.",
+  "measured": [
+    {
+      "fixture": "Developer terminal",
+      "findings": {
+        "Email address": 1,
+        "Possible credential": 1,
+        "Service / URL context": 1,
+        "IP address context": 1
+      },
+      "groups": [
+        "Credential + system context"
+      ],
+      "stages": "OCR: complete · QR: complete · 4.6s · standard"
+    },
+    {
+      "fixture": "Travel ticket",
+      "findings": {
+        "QR · plain text": 1,
+        "Email address": 1,
+        "Booking reference": 2,
+        "Travel details": 5
+      },
+      "groups": [
+        "Travel details + reference",
+        "Travel details + reference"
+      ],
+      "stages": "OCR: complete · QR: complete · 1.8s · standard"
+    },
+    {
+      "fixture": "Shopping receipt",
+      "findings": {
+        "Email address": 1,
+        "Possible phone number": 1,
+        "Order identifier": 1,
+        "Possible delivery address": 1
+      },
+      "groups": [
+        "Contact + delivery details"
+      ],
+      "stages": "OCR: complete · QR: complete · 1.7s · standard"
+    },
+    {
+      "fixture": "Control image",
+      "findings": {
+        "Service / URL context": 1
+      },
+      "groups": [],
+      "stages": "OCR: complete · QR: complete · 1.3s · standard"
+    }
+  ]
+}

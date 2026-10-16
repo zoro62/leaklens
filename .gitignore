@@ -1,0 +1,15 @@
+node_modules/
+.next/
+.npm-cache/
+public/engine/
+.playwright/
+out/
+test-results/
+playwright-report/
+*.tsbuildinfo
+next-env.d.ts
+*.zip
+.DS_Store
+Thumbs.db
+.env*
+!.env.example

@@ -1,0 +1,12 @@
+import { mkdir, copyFile, readdir } from 'node:fs/promises';
+import path from 'node:path';
+const destination = 'public/engine';
+await mkdir(destination, { recursive: true });
+await copyFile('node_modules/tesseract.js/dist/worker.min.js', `${destination}/worker.min.js`);
+for (const name of await readdir('node_modules/tesseract.js-core')) if (/^tesseract-core.*\.(?:js|wasm)$/.test(name)) await copyFile(path.join('node_modules/tesseract.js-core', name), path.join(destination, name));
+await copyFile('node_modules/@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz', `${destination}/eng.traineddata.gz`);
+await copyFile('node_modules/zxing-wasm/dist/reader/zxing_reader.wasm', `${destination}/zxing_reader.wasm`);
+await copyFile('node_modules/tesseract.js/LICENSE.md', `${destination}/tesseract-js-LICENSE.txt`);
+await copyFile('node_modules/tesseract.js-core/LICENSE', `${destination}/tesseract-core-LICENSE.txt`);
+await copyFile('node_modules/zxing-wasm/LICENSE', `${destination}/zxing-wasm-LICENSE.txt`);
+console.log('Local OCR and QR assets prepared.');
